@@ -1,8 +1,6 @@
 package com.hrstka
 
-import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
@@ -68,4 +66,13 @@ class TransactionsTest(
 
         Assertions.assertEquals(0, recordService.count())
     }
+
+    @Test
+    @Order(6)
+    @Timeout(10)
+    fun timeoutTest() = runBlocking { //should not timeout
+        recordService.storeCoroutines()
+        return@runBlocking
+    }
+
 }

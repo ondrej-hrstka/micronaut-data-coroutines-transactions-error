@@ -1,7 +1,6 @@
 package com.hrstka
 
 import jakarta.inject.Singleton
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.UUID
 import javax.transaction.Transactional
@@ -35,6 +34,12 @@ open class RecordService(
 
         genericCoroutinesRepository.save(Record(id))
         throw RuntimeException("exception")
+    }
+
+    @Transactional
+    open suspend fun storeCoroutines() {
+        val id = UUID.randomUUID()
+        coroutinesRepository.save(Record(id))
     }
 
     open fun count(): Long {
